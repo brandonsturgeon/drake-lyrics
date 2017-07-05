@@ -11,7 +11,7 @@ with open(lyrics_file, 'rb') as lyric_file:
 
 @app.route('/')
 def random_lyric():
-    return choice(lyrics)
+    return choice(lyrics)+'\n'
 
 @app.route('/all_lyrics')
 def all_lyrics():
