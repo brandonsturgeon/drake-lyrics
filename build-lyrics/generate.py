@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup, Tag, NavigableString
 import pickle
 import requests
+import re
 import threading
 
 class GenerateLyrics:
@@ -72,13 +73,36 @@ class GenerateLyrics:
     @staticmethod
     def lyric_is_valid(lyric):
         stripped = lyric.strip()
-        validations = [
-            '[' not in lyric,
-            lyric is not u'',
-            lyric is not None,
-            len(lyric) > 0 and stripped[0] is not '(',
-            'FT.' not in stripped
-        ]
+        validations = {
+            '[' not in stripped,
+            ']' not in stripped,
+            stripped is not u'',
+            stripped is not None,
+            len(stripped) > 0 and stripped[0] is not '(',
+            len(stripped) > 0 and stripped[0] is not ')',
+            len(stripped) > 0 and stripped[0] is not '@',
+            len(stripped) > 0 and stripped[0] is not ',',
+            len(stripped) > 1,
+            re.match(r'^\d\d?\.', stripped) is None, # Prevent: '1.', '2.', etc.
+            'FT.' not in stripped,
+            'Ft.' not in stripped,
+            'ft.' not in stripped,
+            'Feat.' not in stripped,
+            'feat.' not in stripped,
+            'Verse (' not in stripped,
+            'Hook:' not in stripped,
+            'Outro:' not in stripped,
+            'Chorus:' not in stripped,
+            'Rap (' not in stripped,
+            '44, 22' not in stripped,
+            '.  ' not in stripped, # To prevent things like: 1.  Houstatlantavegas
+            '(click links for lyrics)' not in stripped,
+            '(*Beat' not in stripped, # To prevent things like: (*Beat slows*)
+            'DRAKE:' not in stripped,
+            'DRAKE\'S GIRL' not in stripped,
+            'SINISTER MAN' not in stripped,
+            'Popcaan' not in stripped, # Preventing: (Popcaan from 10:52-11:20),
+        }
         return all(validations)
 
     def get_lyrics_for_track(self, track_url):
@@ -100,6 +124,7 @@ class GenerateLyrics:
             for line in spread:
                 stripped_line = line.strip()
                 if self.lyric_is_valid(stripped_line):
+                    print "Valid: " + stripped_line
                     fold.append(stripped_line)
 
             fold = "\n".join(fold)
@@ -116,6 +141,7 @@ class GenerateLyrics:
                     if type(loose_lyric) == NavigableString:
                         stripped_loose_lyric = loose_lyric.strip()
                         if self.lyric_is_valid(stripped_loose_lyric):
+                            print "Valid: " + stripped_loose_lyric
                             loose_lyrics.append(stripped_loose_lyric)
 
         # All together, now
@@ -137,6 +163,7 @@ class GenerateLyrics:
 
     def get_album_url(self, album_name):
         return self.base_album_url.format(album_name)
+    
 
 if __name__ == '__main__':
     GenerateLyrics()
