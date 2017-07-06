@@ -15,7 +15,6 @@ class GenerateLyrics:
             'Born-successful',
             'Dead-perspective',
             'So-far-gone',
-            'So-far-gone-ep',
             'AM-pm-series',
             'Thank-me-later',
             'Young-sweet-jones-2',
@@ -63,8 +62,6 @@ class GenerateLyrics:
                 if lyric not in self.lyrics:
                     self.lyrics.append(lyric)
 
-
-
     @staticmethod
     def get_soup_from_url(url):
         doc = requests.get(url, verify=False)
@@ -78,12 +75,12 @@ class GenerateLyrics:
             ']' not in stripped,
             stripped is not u'',
             stripped is not None,
-            len(stripped) > 0 and stripped[0] is not '(',
+            len(stripped) > 0 and stripped[0] is not '(',# Cannot access 0th index if len is 0
             len(stripped) > 0 and stripped[0] is not ')',
             len(stripped) > 0 and stripped[0] is not '@',
             len(stripped) > 0 and stripped[0] is not ',',
             len(stripped) > 1,
-            re.match(r'^\d\d?\.', stripped) is None, # Prevent: '1.', '2.', etc.
+            re.match(r'\d\d?\.', stripped) is None, # Prevent: '1.', '2.', etc.
             'FT.' not in stripped,
             'Ft.' not in stripped,
             'ft.' not in stripped,
@@ -111,7 +108,7 @@ class GenerateLyrics:
 
         lyric_div = soup.find('div', {'class': 'lyrics'})
 
-        # The a tags contain lyric blocks, or fragments
+        # The a tags contain lyric blocks (fragments)
         a_tags = lyric_div.find_all('a')
 
         # Get all lyrics which have been commented on
@@ -125,7 +122,6 @@ class GenerateLyrics:
             for line in spread:
                 stripped_line = line.strip()
                 if self.lyric_is_valid(stripped_line):
-                    print "Valid: " + stripped_line
                     fold.append(stripped_line)
 
             fold = "\n".join(fold)
@@ -142,7 +138,6 @@ class GenerateLyrics:
                     if type(loose_lyric) == NavigableString:
                         stripped_loose_lyric = loose_lyric.strip()
                         if self.lyric_is_valid(stripped_loose_lyric):
-                            print "Valid: " + stripped_loose_lyric
                             loose_lyrics.append(stripped_loose_lyric)
 
         # All together, now
@@ -164,7 +159,6 @@ class GenerateLyrics:
 
     def get_album_url(self, album_name):
         return self.base_album_url.format(album_name)
-    
 
 if __name__ == '__main__':
     GenerateLyrics()
