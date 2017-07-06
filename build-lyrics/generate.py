@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup, Tag, NavigableString
 import pickle
 import requests
+import threading
 
 class GenerateLyrics:
     def __init__(self):
@@ -34,20 +35,33 @@ class GenerateLyrics:
 
         self.main()
 
-
     def main(self):
+        thread_list = []
+
         for album in self.album_names:
-            tracks = self.get_tracks_for_album(album)
+            thread = threading.Thread(target=self.generate_lyrics, args=(album,))
+            thread_list.append(thread)
 
-            for track in tracks:
-                lyrics = self.get_lyrics_for_track(track)
+        for thread in thread_list:
+            thread.start()
 
-                for lyric in lyrics:
-                    if lyric not in self.lyrics:
-                        self.lyrics.append(lyric)
+        for thread in thread_list:
+            thread.join()
 
+        # Should be done at this point
         with open(self.lyrics_file_name, 'wb') as save_file:
             pickle.dump(self.lyrics, save_file)
+
+    def generate_lyrics(self, album):
+        tracks = self.get_tracks_for_album(album)
+
+        for track in tracks:
+            lyrics = self.get_lyrics_for_track(track)
+
+            for lyric in lyrics:
+                if lyric not in self.lyrics:
+                    self.lyrics.append(lyric)
+
 
 
     @staticmethod
