@@ -71,12 +71,13 @@ class GenerateLyrics:
 
     @staticmethod
     def lyric_is_valid(lyric):
+        stripped = lyric.srip()
         validations = [
             '[' not in lyric,
             lyric is not u'',
             lyric is not None,
-            len(lyric) > 0 and lyric[0] is not '(',
-            'FT.' not in lyric
+            len(lyric) > 0 and stripped[0] is not '(',
+            'FT.' not in stripped
         ]
         return all(validations)
 
