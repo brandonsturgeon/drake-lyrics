@@ -99,6 +99,7 @@ class GenerateLyrics:
             '(click links for lyrics)' not in stripped,
             '(*Beat' not in stripped, # To prevent things like: (*Beat slows*)
             'DRAKE:' not in stripped,
+            'Drake:' not in stripped,
             'DRAKE\'S GIRL' not in stripped,
             'SINISTER MAN' not in stripped,
             'Popcaan' not in stripped, # Preventing: (Popcaan from 10:52-11:20),
