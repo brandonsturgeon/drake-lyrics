@@ -6,7 +6,8 @@ from random import choice
 app = Flask(__name__)
 lyrics_file = './all_lyrics.txt'
 
-lyrics = ['yeah     ']
+# Placeholder in case unpickling takes too long
+lyrics = ['yeah', 'yeah', 'yeah']
 with open(lyrics_file, 'rb') as lyric_file:
     lyrics = pickle.load(lyric_file)
 
@@ -19,10 +20,6 @@ def random_lyric():
 @app.route('/lyric')
 def api_lyric():
     return choice(lyrics)+'\n'
-
-@app.route('/all_lyrics')
-def all_lyrics():
-    return str(lyrics)
 
 @app.route('/favicon.ico')
 def favicon():
