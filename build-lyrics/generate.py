@@ -25,11 +25,24 @@ class GenerateLyrics:
             'More-life'
         ]
 
+        # Don't parse tracks with these words in them
         self.exclude_track_words = [
             'booklet',
             'trailer',
             'credits'
         ]
+
+        # Lyrics which are added manually
+        self.manual_lyrics = [
+            '[MACHINE GUN SHOTS]'
+        ]
+
+        # Songs not released under an album
+        self.singles = [
+            'https://genius.com/Drake-back-to-back-lyrics',
+            'https://genius.com/Drake-sneakin-lyrics'
+        ]
+
 
         self.lyrics = []
 
