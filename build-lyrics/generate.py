@@ -1,4 +1,4 @@
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag, NavigableString
 import pickle
 import requests
 
@@ -68,11 +68,43 @@ class GenerateLyrics:
         soup = self.get_soup_from_url(track_url)
 
         lyric_div = soup.find('div', {'class': 'lyrics'})
-        lyrics = lyric_div.text.split('\n')
 
-        lyrics = [lyric for lyric in lyrics if self.lyric_is_valid(lyric.strip())]
+        # The a tags contain lyric blocks, or fragments
+        a_tags = lyric_div.find_all('a')
 
-        return lyrics
+        # Get all lyrics which have been commented on
+        lyric_fragments = []
+        for tag in a_tags:
+            spread = tag.text.split("\n")
+            fold = []
+
+            # Sometimes there are unacceptable lines in the fragments which we need to remove
+            # so we're going to rebuild the fragment containing only what we want
+            for line in spread:
+                stripped_line = line.strip()
+                if self.lyric_is_valid(stripped_line):
+                    fold.append(stripped_line)
+
+            fold = "\n".join(fold)
+
+            lyric_fragments.append(fold)
+
+        loose_lyrics = []
+        # Get all lyrics which have not been commented on
+        for child in lyric_div.children:
+            if type(child) == Tag:
+                # lyric_div contains many children, only the Tag child has lyrics in it
+                for loose_lyric in child.children:
+                    # We're only looking for loose lyrics inside of NavigableStrings
+                    if type(loose_lyric) == NavigableString:
+                        stripped_loose_lyric = loose_lyric.strip()
+                        if self.lyric_is_valid(stripped_loose_lyric):
+                            loose_lyrics.append(stripped_loose_lyric)
+
+        # All together, now
+        combined_lyrics = lyric_fragments + loose_lyrics
+
+        return combined_lyrics
 
     def get_tracks_for_album(self, album_name):
         url = self.get_album_url(album_name)
