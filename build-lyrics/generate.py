@@ -74,7 +74,8 @@ class GenerateLyrics:
         validations = [
             '[' not in lyric,
             lyric is not u'',
-            lyric is not None
+            lyric is not None,
+            lyric[0] is not '('
         ]
         return all(validations)
 
