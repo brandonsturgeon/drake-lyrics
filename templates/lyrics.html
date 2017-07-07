@@ -5,10 +5,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-      $("div").click(() => {
+      $("#centered-lyrics").on('click', function() {
         $.ajax({
           url: './lyric',
-          success: (result) => {
+          success: function(result) {
             const lyrics = result.split("\n");
             const lyricsDiv = $(".centered-lyrics");
             lyricsDiv.empty();
