@@ -4,22 +4,7 @@
     <title>Perfect for instagram captions</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-      $("#centered-lyrics").on('click', function() {
-        $.ajax({
-          url: './lyric',
-          success: function(result) {
-            const lyrics = result.split("\n");
-            const lyricsDiv = $(".centered-lyrics");
-            lyricsDiv.empty();
 
-            for (let i = 0; i < lyrics.length; i++) {
-              lyricsDiv.append(`<p>${lyrics[i]}</p>`);
-            }
-          }
-        });
-      }); 
-    </script>
   </head>
 
   <body>
@@ -39,6 +24,22 @@
 
       ga('create', 'UA-72303326-4', 'auto');
       ga('send', 'pageview');  
+    </script>
+    <script>
+      $("#centered-lyrics").on('click', function() {
+        $.ajax({
+          url: './lyric',
+          success: function(result) {
+            const lyrics = result.split("\n");
+            const lyricsDiv = $(".centered-lyrics");
+            lyricsDiv.empty();
+
+            for (let i = 0; i < lyrics.length; i++) {
+              lyricsDiv.append(`<p>${lyrics[i]}</p>`);
+            }
+          }
+        });
+      }); 
     </script>
   </footer>
 </html>
