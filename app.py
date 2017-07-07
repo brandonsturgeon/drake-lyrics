@@ -14,9 +14,8 @@ with open(lyrics_file, 'rb') as lyric_file:
 
 def get_lyric(sfw = False):
     chosen_lyric = choice(lyrics)
-    chosen_lyric = 'niggas crazy'
+
     if sfw:
-        profanityfilter.defined_words(['niggas'])
         chosen_lyric = profanityfilter.censor(chosen_lyric)
     return chosen_lyric
 
