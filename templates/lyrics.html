@@ -5,20 +5,20 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
-      $("div").click(function() {
+      $("div").click(() => {
         $.ajax({
-          url: "./lyric",
-          success: function(result) {
+          url: './lyric',
+          success: (result) => {
             const lyrics = result.split("\n");
             const lyricsDiv = $(".centered-lyrics");
             lyricsDiv.empty();
 
             for (let i = 0; i < lyrics.length; i++) {
               lyricsDiv.append(`<p>${lyrics[i]}</p>`);
-            };
-          });
+            }
+          }
         });
-      });
+      }); 
     </script>
   </head>
 
