@@ -4,16 +4,30 @@
     <title>Perfect for instagram captions</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      $("div").click(function() {
+        $.ajax({
+          url: "./lyric",
+          success: function(result) {
+            const lyrics = result.split("\n");
+            const lyricsDiv = $(".centered-lyrics");
+            lyricsDiv.empty();
+
+            for (let i = 0; i < lyrics.length; i++) {
+              lyricsDiv.append(`<p>${lyrics[i]}</p>`);
+            };
+          });
+        });
+      });
+    </script>
   </head>
 
   <body>
-    <a href="." style="text-decoration: none;">
-      <div class="centered-lyrics">
-        {% for line in lyric_lines %}
-          <p>{{ line }}</p>
-        {% endfor %}
-      </div>
-    </a>
+    <div class="centered-lyrics">
+      {% for line in lyric_lines %}
+        <p>{{ line }}</p>
+      {% endfor %}
+    </div>
   </body>
 
   <footer>
