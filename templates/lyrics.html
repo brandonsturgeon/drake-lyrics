@@ -2,7 +2,7 @@
 <html style="height: 100%;">
   <head>
     <title>Perfect for instagram captions</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
   </head>
@@ -16,30 +16,7 @@
   </body>
 
   <footer>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-72303326-4', 'auto');
-      ga('send', 'pageview');  
-    </script>
-    <script>
-      $("#centered-lyrics").on('click', function() {
-        $.ajax({
-          url: './lyric',
-          success: function(result) {
-            const lyrics = result.split("\n");
-            const lyricsDiv = $(".centered-lyrics");
-            lyricsDiv.empty();
-
-            for (let i = 0; i < lyrics.length; i++) {
-              lyricsDiv.append(`<p>${lyrics[i]}</p>`);
-            }
-          }
-        });
-      }); 
-    </script>
+    <script src="{{ url_for('static', filename='js/analytics.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/full-page-click.js')}}"></script>
   </footer>
 </html>
