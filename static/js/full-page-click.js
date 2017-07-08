@@ -1,6 +1,7 @@
 $("html").on('click', function() {
+  const urlParams = window.location.search;
   $.ajax({
-    url: './lyric',
+    url: './lyric' + urlParams,
     success: function(result) {
       const lyrics = result.split("\n");
       const lyricsDiv = $(".centered-lyrics");
