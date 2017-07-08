@@ -82,37 +82,33 @@ class GenerateLyrics:
 
     @staticmethod
     def lyric_is_valid(lyric):
-        stripped = lyric.strip()
+        formatted = lyric.strip().lower()
         validations = {
-            '[' not in stripped,
-            ']' not in stripped,
-            stripped is not u'',
-            stripped is not None,
-            len(stripped) > 0 and stripped[0] is not '(',# Cannot access 0th index if len is 0
-            len(stripped) > 0 and stripped[0] is not ')',
-            len(stripped) > 0 and stripped[0] is not '@',
-            len(stripped) > 0 and stripped[0] is not ',',
-            len(stripped) > 1,
-            re.match(r'\d\d?\.', stripped) is None, # Prevent: '1.', '2.', etc.
-            'FT.' not in stripped,
-            'Ft.' not in stripped,
-            'ft.' not in stripped,
-            'Feat.' not in stripped,
-            'feat.' not in stripped,
-            'Verse (' not in stripped,
-            'Hook:' not in stripped,
-            'Outro:' not in stripped,
-            'Chorus:' not in stripped,
-            'Rap (' not in stripped,
-            '44, 22' not in stripped,
-            '.  ' not in stripped, # To prevent things like: 1.  Houstatlantavegas
-            '(click links for lyrics)' not in stripped,
-            '(*Beat' not in stripped, # To prevent things like: (*Beat slows*)
-            'DRAKE:' not in stripped,
-            'Drake:' not in stripped,
-            'DRAKE\'S GIRL' not in stripped,
-            'SINISTER MAN' not in stripped,
-            'Popcaan' not in stripped, # Preventing: (Popcaan from 10:52-11:20),
+            '[' not in formatted,
+            ']' not in formatted,
+            formatted is not u'',
+            formatted is not None,
+            len(formatted) > 0 and formatted[0] is not '(',# Cannot access 0th index if len is 0
+            len(formatted) > 0 and formatted[0] is not ')',
+            len(formatted) > 0 and formatted[0] is not '@',
+            len(formatted) > 0 and formatted[0] is not ',',
+            len(formatted) > 1,
+            re.match(r'\d\d?\.', formatted) is None, # Prevent: '1.', '2.', etc.
+            'ft.' not in formatted,
+            'feat.' not in formatted,
+            'verse (' not in formatted,
+            'hook:' not in formatted,
+            'outro:' not in formatted,
+            'chorus:' not in formatted,
+            'rap (' not in formatted,
+            '44, 22' not in formatted,
+            '.  ' not in formatted, # To prevent things like: 1.  Houstatlantavegas
+            '(click links for lyrics)' not in formatted,
+            '(*beat' not in formatted, # To prevent things like: (*Beat slows*)
+            'drake:' not in formatted,
+            'drake\'s girl' not in formatted,
+            'sinister man' not in formatted,
+            'popcaan' not in formatted, # Preventing: (Popcaan from 10:52-11:20),
         }
         return all(validations)
 
