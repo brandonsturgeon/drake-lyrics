@@ -43,8 +43,15 @@ class GenerateLyrics:
             'https://genius.com/Drake-sneakin-lyrics'
         ]
 
+        # Songs which Drake is not the only singer
+        # TODO: Refactor the generator in a way that this isn't necessary
+        # The generator should be able to identify only Drake's lyrics
+        self.features = [
+            'https://genius.com/Migos-versace-lyrics'
+        ]
 
         self.lyrics = []
+        self.lyrics = self.lyrics + self.manual_lyrics
 
         self.main()
 
